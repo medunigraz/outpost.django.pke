@@ -5,8 +5,8 @@ from django.conf import settings
 
 
 class PKEAppConf(AppConf):
-    CACHE_KEY = 'pke'
-    FOREIGN_KEY = 'id'
+    CACHE_KEY = "pke"
+    FOREIGN_KEY = "id"
 
     class Meta:
-        prefix = 'pke'
+        prefix = "pke"

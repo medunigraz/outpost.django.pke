@@ -17,11 +17,10 @@ logger = logging.getLogger(__name__)
 
 
 class XMLView(HttpBasicAuthMixin, LoginRequiredMixin, View):
-
     def get(self, request):
         response = HttpResponse()
-        response['Content-Type'] = 'application/xml'
-        response['X-Path'] = __file__
+        response["Content-Type"] = "application/xml"
+        response["X-Path"] = __file__
         xml = cache.get(settings.PKE_CACHE_KEY, None)
         if not xml:
             xml = XMLTask().run()
@@ -30,10 +29,9 @@ class XMLView(HttpBasicAuthMixin, LoginRequiredMixin, View):
 
 
 class SchemaView(View):
-
     def get(self, request):
-        schema = Path(__file__).with_name('schema.xsd')
-        response = FileResponse(schema.open('rb'))
-        response['Content-Type'] = 'application/xml'
-        response['Cache-Control'] = 'public,max-age=604800'
+        schema = Path(__file__).with_name("schema.xsd")
+        response = FileResponse(schema.open("rb"))
+        response["Content-Type"] = "application/xml"
+        response["Cache-Control"] = "public,max-age=604800"
         return response

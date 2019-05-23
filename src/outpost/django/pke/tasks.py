@@ -13,14 +13,11 @@ logger = logging.getLogger(__name__)
 
 
 def fetchdict(cursor):
-    '''
+    """
     Return all rows from a cursor as a dict.
-    '''
+    """
     columns = [col.name for col in cursor.description]
-    return [
-        dict(zip(columns, row))
-        for row in cursor.fetchall()
-    ]
+    return [dict(zip(columns, row)) for row in cursor.fetchall()]
 
 
 class XMLTask(PeriodicTask):
@@ -36,9 +33,7 @@ class XMLTask(PeriodicTask):
         with connection.cursor() as cursor:
             cursor.execute(
                 f'SELECT * FROM "pke"."vortragende" WHERE {key.upper()} = %s',
-                [
-                    data.get(key)
-                ]
+                [data.get(key)],
             )
             for row in fetchdict(cursor):
                 event.VORTRAGENDER.append(self.lecturer(row))
@@ -52,17 +47,17 @@ class XMLTask(PeriodicTask):
         return lecturer
 
     def run(self, **kwargs):
-        logging.info('Generating new XML body')
+        logging.info("Generating new XML body")
         root = schema.MEDIEN_MON_TERMINE()
         with connection.cursor() as cursor:
             cursor.execute(
-                '''
+                """
                 SELECT * FROM "pke"."anzeigen" ORDER BY ZEIT_VON, ZEIT_BIS
-                '''
+                """
             )
             for row in fetchdict(cursor):
                 root.TERMIN.append(self.event(row))
         body = root.toxml()
         cache.set(settings.PKE_CACHE_KEY, body)
-        logging.info(f'Finished generating new XML body with size {len(body)}')
+        logging.info(f"Finished generating new XML body with size {len(body)}")
         return body

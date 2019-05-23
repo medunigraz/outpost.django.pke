@@ -10,15 +10,15 @@ class Migration(migrations.Migration):
 
     ops = [
         (
-        '''
+            """
         CREATE SCHEMA IF NOT EXISTS pke;
-        ''',
-        '''
+        """,
+            """
         DROP SCHEMA IF EXISTS pke;
-        ''',
+        """,
         ),
         (
-            '''
+            """
             CREATE FOREIGN TABLE "pke"."anzeigen" (
                 ID numeric,
                 TYP numeric,
@@ -37,13 +37,15 @@ class Migration(migrations.Migration):
                 tablename 'PKE_ANZEIGEN_V',
                 db_url '{}'
             );
-            '''.format(settings.MULTICORN.get('campusonline')),
-            '''
+            """.format(
+                settings.MULTICORN.get("campusonline")
+            ),
+            """
             DROP FOREIGN TABLE IF EXISTS "pke"."anzeigen";
-            ''',
+            """,
         ),
         (
-            '''
+            """
             CREATE FOREIGN TABLE "pke"."vortragende" (
                 ID numeric,
                 NAME varchar,
@@ -53,20 +55,20 @@ class Migration(migrations.Migration):
                 tablename 'PKE_ANZEIGEN_VORTRAGENDE_V',
                 db_url '{}'
             );
-            '''.format(settings.MULTICORN.get('campusonline')),
-            '''
+            """.format(
+                settings.MULTICORN.get("campusonline")
+            ),
+            """
             DROP FOREIGN TABLE IF EXISTS "pke"."vortragende";
-            ''',
+            """,
         ),
     ]
 
-    dependencies = [
-        ('base', '0001_initial'),
-    ]
+    dependencies = [("base", "0001_initial")]
 
     operations = [
         migrations.RunSQL(
             [forward for forward, reverse in ops],
-            [reverse for forward, reverse in reversed(ops)]
+            [reverse for forward, reverse in reversed(ops)],
         )
     ]

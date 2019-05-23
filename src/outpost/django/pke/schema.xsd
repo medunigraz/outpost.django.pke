@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema attributeFormDefault="unqualified" elementFormDefault="qualified" version="1.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    targetNamespace="https://api.medunigraz.at/pke/schema" xmlns="https://api.medunigraz.at/pke/schema">
+    <xsd:element name="MEDIEN_MON_TERMINE" type="MEDIEN_MON_TERMINEType"/>
+    <xsd:complexType name="MEDIEN_MON_TERMINEType">
+        <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="unbounded" name="TERMIN" type="TerminType"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="TerminType">
+        <xsd:attribute name="ID" type="xsd:int"/>
+        <xsd:attribute name="TYP" type="xsd:int"/>
+        <xsd:attribute name="TYP_TXT" type="xsd:string"/>
+        <xsd:attribute name="KENNUNG" type="xsd:string"/>
+        <xsd:attribute name="TITEL" type="xsd:string"/>
+        <xsd:attribute name="DATUM" type="xsd:dateTime"/>
+        <xsd:attribute name="ZEIT_VON" type="xsd:dateTime"/>
+        <xsd:attribute name="ZEIT_BIS" type="xsd:dateTime"/>
+        <xsd:attribute name="GEBAEUDE" type="xsd:string"/>
+        <xsd:attribute name="RAUM" type="xsd:string"/>
+        <xsd:attribute name="RAUM_BEZ" type="xsd:string"/>
+        <xsd:attribute name="TERMINART" type="xsd:string"/>
+        <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="unbounded" name="VORTRAGENDER" type="VortragenderType"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="VortragenderType">
+        <xsd:attribute name="ID" type="xsd:int"/>
+        <xsd:attribute name="NAME" type="xsd:string"/>
+        <xsd:attribute name="TYP" type="xsd:string"/>
+    </xsd:complexType>
+</xsd:schema>

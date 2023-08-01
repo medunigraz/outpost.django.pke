@@ -12,7 +12,7 @@ from django.views.generic import View
 from outpost.django.base.mixins import HttpBasicAuthMixin
 
 from .conf import settings
-from .tasks import XMLTask
+from .tasks import PKETasks
 
 logger = logging.getLogger(__name__)
 
@@ -21,10 +21,9 @@ class XMLView(HttpBasicAuthMixin, LoginRequiredMixin, View):
     def get(self, request):
         response = HttpResponse()
         response["Content-Type"] = "application/xml"
-        response["X-Path"] = __file__
         xml = cache.get(settings.PKE_CACHE_KEY, None)
         if not xml:
-            xml = XMLTask().run()
+            xml = PKETasks().hydrate()
         response.write(xml)
         return response
 
@@ -32,7 +31,8 @@ class XMLView(HttpBasicAuthMixin, LoginRequiredMixin, View):
 class SchemaView(View):
     def get(self, request):
         schema = Path(__file__).with_name("schema.xsd")
-        response = FileResponse(schema.open("rb"))
-        response["Content-Type"] = "application/xml"
-        response["Cache-Control"] = "public,max-age=604800"
+        with schema.open("rb") as inp:
+            response = FileResponse(inp)
+            response["Content-Type"] = "application/xml"
+            response["Cache-Control"] = "public,max-age=604800"
         return response

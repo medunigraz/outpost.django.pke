@@ -11,11 +11,11 @@ class Migration(migrations.Migration):
     ops = [
         (
             """
-        CREATE SCHEMA IF NOT EXISTS pke;
-        """,
+            CREATE SCHEMA IF NOT EXISTS pke;
+            """,
             """
-        DROP SCHEMA IF EXISTS pke;
-        """,
+            DROP SCHEMA IF EXISTS pke;
+            """,
         ),
         (
             """

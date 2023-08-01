@@ -1,13 +1,14 @@
 import logging
 from pathlib import Path
 
-from django.http import FileResponse
-from django.core.cache import cache
-from django.http import HttpResponse
-from django.views.generic import View
 from braces.views import LoginRequiredMixin
-
+from django.core.cache import cache
+from django.http import (
+    FileResponse,
+    HttpResponse,
+)
 from django.utils.decorators import method_decorator
+from django.views.generic import View
 from outpost.django.base.mixins import HttpBasicAuthMixin
 
 from .conf import settings

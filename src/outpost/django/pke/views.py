@@ -10,6 +10,8 @@ from django.http import (
 from django.utils.decorators import method_decorator
 from django.views.generic import View
 from outpost.django.base.mixins import HttpBasicAuthMixin
+from rest_framework import permissions
+from rest_framework.views import APIView
 
 from .conf import settings
 from .tasks import PKETasks
@@ -17,8 +19,10 @@ from .tasks import PKETasks
 logger = logging.getLogger(__name__)
 
 
-class XMLView(HttpBasicAuthMixin, LoginRequiredMixin, View):
-    def get(self, request):
+class XMLView(APIView):
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def get(self, request, format=None):
         response = HttpResponse()
         response["Content-Type"] = "application/xml"
         xml = cache.get(settings.PKE_CACHE_KEY, None)
